@@ -7,4 +7,8 @@ interface IStakingContract {
     function stake(uint _amount) external;
 
     function getTotalStake() external view returns (uint) ;
+
+    function claimRewardToWallet() external;
+
+    function withdrawFromWallet(uint _amount) external;
 }

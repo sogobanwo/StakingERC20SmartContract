@@ -10,7 +10,6 @@ contract StakingContract {
 
     uint immutable inverseRewardRate;
 
-    
     uint immutable minStake;
     
     uint immutable minDeposit;
@@ -27,6 +26,7 @@ contract StakingContract {
     mapping (address => uint) rewardTimeStamp;
 
     constructor(address _stakeToken, uint _stakingDuration, uint _inverseRewardRate, uint _minDeposit, uint _minStake) {
+
         stakeToken = _stakeToken;
     
         stakingDuration = _stakingDuration;
@@ -51,6 +51,7 @@ contract StakingContract {
 
     // FUNCTIONS
     function depositToWallet(uint _amount) external{
+
         require(msg.sender != address(0), "Address zero detected");
     
         require(_amount > 0, "cannot deposit 0 token");
@@ -67,10 +68,13 @@ contract StakingContract {
     }
 
     function setAvailableReward() external  {
+
         availableRewardTokens = IStakeToken(stakeToken).balanceOf(address(this));
+
     }
 
     function stake(uint _amount) external{
+
         require(msg.sender != address(0), "Address zero detected");
      
         require(_amount > 0, "cannot stake 0 token");
@@ -93,6 +97,7 @@ contract StakingContract {
     }
 
     function unstake() external{
+
         require(msg.sender != address(0), "Address zero detected");
      
         require(amountStaked[msg.sender] != 0, "You don't have any stake");
@@ -109,16 +114,20 @@ contract StakingContract {
     }
 
     function setReward() private {
+
       reward[msg.sender] = amountStaked[msg.sender] * stakingDuration / inverseRewardRate;
+
     }
 
     function calculateReward(uint _amount) external view returns(uint){
+
         require(_amount != 0, "can't calculate reward for the value of 0");
      
         return _amount  * stakingDuration / inverseRewardRate;
     }
     
     function claimRewardToWallet() external{ 
+
         require(msg.sender != address(0), "Address zero detected");
      
         require(reward[msg.sender] != 0, "You don't have any reward");
@@ -135,6 +144,7 @@ contract StakingContract {
     }
 
     function withdrawFromWallet(uint _amount) external{
+
         require(msg.sender != address(0), "Address zero detected");
      
         require(walletBalance[msg.sender] > _amount, "You don't have enough balance in your wallet");
@@ -147,26 +157,39 @@ contract StakingContract {
     }
 
     function getStake(address __staker) external view  returns (uint) {
+
+        
         return amountStaked[__staker];
     }
 
     function getReward(address __staker) external view returns (uint) {
+        
         return reward[__staker];
+    
     }
 
+
     function getWalletBalance(address __staker) external view returns (uint) {
+    
         return walletBalance[__staker];
+    
     }
 
     function getTotalWalletBalance() external view returns (uint) {
+    
         return walletBalance[address(this)];
+    
     }
 
     function getTotalStake() external view returns (uint)  {
+    
         return amountStaked[address(this)];
+    
     }
 
      function getTotalReward() external view returns (uint)  {
+    
         return reward[address(this)];
+    
     }
 }

@@ -8,5 +8,5 @@ interface IStakeToken {
 
     function transferFrom( address _from, address _to, uint256 _value ) external returns (bool);
 
-    function approve( address _spender, int256 _value ) external returns (bool);
+    function approve( address _spender, uint256 _value ) external returns (bool);
 }
